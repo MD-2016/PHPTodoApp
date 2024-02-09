@@ -1,0 +1,5 @@
+{
+    "require": {
+        "env/dotenv": "^2.0"
+    }
+}
