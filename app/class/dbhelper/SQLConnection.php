@@ -1,6 +1,6 @@
 <?php
 
-namespace database;
+namespace MD\dbhelper;
 
 
     class SQLConnection {

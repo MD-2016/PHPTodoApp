@@ -1,6 +1,6 @@
 <?php
 
-    namespace models;
+    namespace MD\models;
 
     class Task
     {

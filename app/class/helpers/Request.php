@@ -1,6 +1,6 @@
 <?php
 
-    namespace helpers;
+    namespace MD\helpers;
 
     class Request {
         public static function uri() {

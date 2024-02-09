@@ -1,6 +1,6 @@
 <?php
 
-    namespace models;
+    namespace MD\models;
 
     class User {
         public readonly string $username;
