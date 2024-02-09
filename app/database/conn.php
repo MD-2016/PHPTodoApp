@@ -17,7 +17,7 @@ namespace database;
           */
           public function connect() {
             if ($this->pdo == null) {
-                $this->pdo = new \PDO("sqlite://todoDB.sqlite3");
+                $this->pdo = new \PDO("sqlite:/todoDB.sqlite3");
             }
 
             return $this->pdo;
