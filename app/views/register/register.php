@@ -1,5 +1,31 @@
 <?php 
-    require __DIR__ . '../../../vendor/autoload.php';
+    include '../../../vendor/autoload.php';
+    use MD\helpers\formcheck\Checker;
+    use MD\dbhelper\SQLConnection;
+
+   
+
+    function postInput($htmlName) {
+        if(isset($_POST[$htmlName])) {
+            return $_POST[$htmlName];
+        }
+
+        return null;
+    }
+
+    $username = postInput('username');
+    $pass = postInput('password');
+    $validatePass = postInput('validatepassword');
+
+    public checker = new Checker($username);
+
+    if(isset($_POST['submit'])) {
+        $hashedpassword = password_hash($pass, PASSWORD_DEFAULT);
+
+        if(Checker::validateRegisterFields($username, $pass, $validatePass)) {
+
+        }
+    }
 
 
 ?>
@@ -19,11 +45,6 @@
                 <span class="error" style="display: none;">Please enter a username</span>
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username">
-            </div>
-            <div>
-            <span class="error" style="display: none;">Please enter a correct email address</span>
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email">
             </div>
             <div>
                 <span class="error" style="display: none;">Please enter a password</span>
