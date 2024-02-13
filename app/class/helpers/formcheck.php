@@ -26,6 +26,8 @@
         if(strlen($input) < 8) {
             $errors[] = 'Password must 8 or more characters';
         }
+
+        return $errors ?: true;
     }
 
     static function valdiatePassword($input, $pass2, $required=true) {
