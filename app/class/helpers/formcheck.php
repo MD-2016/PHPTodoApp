@@ -28,7 +28,7 @@
         }
     }
 
-    static function valdiatePassword($input, $required=true) {
+    static function valdiatePassword($input, $pass2, $required=true) {
         $errors = [];
 
         if(!$input && $required) {
@@ -38,5 +38,11 @@
         if(strlen($input) < 8) {
             $errors[] = 'Validated Password must be 8 or more characters';
         }
+
+        if(strcmp($input, $pass2) != 0) {
+            $errors[] = 'Passwords dont match';
+        }
+
+        return $errors ?: true;
     }
   }
