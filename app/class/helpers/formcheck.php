@@ -6,7 +6,7 @@
     static function username($input, $required=true) {
         $errors = [];
 
-        if(!$input && $required) {
+        if(empty($input) && $required) {
             $errors[] = 'Username is required';
         }
 
@@ -14,12 +14,12 @@
             $errors[] = 'Username is invalid';
         }
 
-        return $errors ?: true;
+        return $errors;
     }
 
     static function password($input, $required=true) {
         $errors = [];
-        if(!$input && $required) {
+        if(empty($input) && $required) {
             $errors[] = 'Password is required';
         }
 
@@ -27,7 +27,7 @@
             $errors[] = 'Password must 8 or more characters';
         }
 
-        return $errors ?: true;
+        return $errors;
     }
 
     static function valdiatePassword($input, $pass2, $required=true) {
@@ -45,6 +45,6 @@
             $errors[] = 'Passwords dont match';
         }
 
-        return $errors ?: true;
+        return $errors;
     }
   }

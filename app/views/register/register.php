@@ -3,30 +3,16 @@
     use MD\dbhelper\SQLConnection;
     use MD\helpers\Validate;
 
-   $username = $_POST['username'];
-   $pass = $_POST['password'];
-   $validatePass = $_POST['validatepassword'];
    $required = true;
    $errors = [];
-
-   //variables for validation
-   $validatedUsername = false;
-   $validatedPassword = false;
-   $validatedValidPass = false;
-
+   //$validatePass = Validate::password($_POST['password'], $required);
+   //$validatePassBoth = Validate::valdiatePassword($_POST['validatepassword'], $_POST['password'], $required);
+   /*$inputArray = array("username" => ['Username is required', 'Username is invalid'], "password" => ['Password is required', 'Password must 8 or more characters'], "validatepassword" => ['Validated Password is required', 'Validated Password must be 8 or more characters', 'Passwords dont match']);*/
     if(isset($_POST['submit'])) {
-        // check the user input before database connection
-        $validatedUsername | $errors = Validate::username($username, $required);
-        $validatedPassword | $errors = Validate::password($pass, $required);
-        $validatedValidPass | $errors = Validate::valdiatePassword($validatePass, $pass, $required);
-
-        if($validatedUsername && $validatedPassword && $validatedValidPass) {
-            // code here for success and start database connection and prepared statement
-        }
-
-        // deal with printing out errors
-
-
+        // build an error array just in case 
+              $errors = array_filter(['username' => Validate::username($_POST['username'], $required), 
+                         'password' => Validate::password($_POST['password'], $required), 
+                         'validatepassword' => Validate::valdiatePassword($_POST['validatepassword'], $_POST['password'], $required)]);
     }
 
 
@@ -44,19 +30,39 @@
         <form action="" method="post">
             <h1>Sign Up</h1>
             <div>
-                
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username">
+                <?php
+                     if(!empty($errors['username'])) {
+                        foreach ($errors['username'] as $error) {
+                            echo '<p>{$error}</p>';
+                        }
+                   }
+                ?>
             </div>
             <div>
                
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password">
+                <?php 
+                         if(!empty($errors['password'])) {
+                            foreach ($errors['password'] as $error) {
+                                echo '<p>{$error}</p>';
+                            }
+                        }                
+                ?>
             </div>
             <div>
                
                 <label for="validatepassword">Validate Password:</label>
                 <input type="password" name="validatepassword" id="validatepassword">
+                <?php
+                        if(!empty($errors['validatepassword'])) {
+                            foreach ($errors['validatepassword'] as $error) {
+                                echo '<p>{$error}</p>';
+                            }
+                       }     
+                ?>
             </div>
             <div>
                 <button type="submit">Register</button>
