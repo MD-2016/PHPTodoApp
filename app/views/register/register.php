@@ -5,9 +5,6 @@
 
    $required = true;
    $errors = [];
-   //$validatePass = Validate::password($_POST['password'], $required);
-   //$validatePassBoth = Validate::valdiatePassword($_POST['validatepassword'], $_POST['password'], $required);
-   /*$inputArray = array("username" => ['Username is required', 'Username is invalid'], "password" => ['Password is required', 'Password must 8 or more characters'], "validatepassword" => ['Validated Password is required', 'Validated Password must be 8 or more characters', 'Passwords dont match']);*/
     if(isset($_POST['submit'])) {
         // build an error array just in case 
               $errors = array_filter(['username' => Validate::username($_POST['username'], $required), 
@@ -35,7 +32,7 @@
                 <?php
                      if(!empty($errors['username'])) {
                         foreach ($errors['username'] as $error) {
-                            echo '<p>{$error}</p>';
+                            echo '<p>', htmlentities($error), '</p>';
                         }
                    }
                 ?>
@@ -47,7 +44,7 @@
                 <?php 
                          if(!empty($errors['password'])) {
                             foreach ($errors['password'] as $error) {
-                                echo '<p>{$error}</p>';
+                                echo '<p>', htmlentities($error), '</p>';
                             }
                         }                
                 ?>
@@ -59,7 +56,7 @@
                 <?php
                         if(!empty($errors['validatepassword'])) {
                             foreach ($errors['validatepassword'] as $error) {
-                                echo '<p>{$error}</p>';
+                                echo '<p>', htmlentities($error), '</p>';
                             }
                        }     
                 ?>
