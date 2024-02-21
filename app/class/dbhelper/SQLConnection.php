@@ -4,7 +4,7 @@ namespace MD\dbhelper;
 use MD\dbhelper\config;
 use PDOException;
 
-    class SQLConnection {
+    class Database {
         /**
          * PDO instance
          * @var type
@@ -26,38 +26,26 @@ use PDOException;
             
          }
 
-         /**
-          * return pdo connection to sqlite
-          * @return \PDO
-          */
-          public  function connect() {
-            try{
-                $this->pdo = new \PDO("sqlite:" . Config::PATH_TO_SQLITE_FILE);
-            } catch(\PDOException $e) {
-              
-              echo "Error with loading database: " . $e;
-            } 
+          public function addUserQuery(string $username, string $password): bool|int {
+            static $query = 'INSERT INTO `user` (`username`, `password`) VALUES(:username, :password)';
 
-            return $this->pdo;
-          }
+            $stmt = $this->pdo->prepare($query);
 
-          /**
-           * add user to the database query
-           * @return boolean 
-           */
-          public function addUserQuery($username, $password) {
+            if(!$stmt) {
+              return false;
+            }
 
+            $hash = password_hash($password, self::HASH_ALGO, self::ENCRYPTION_COST);
 
-              $encryptedPass = password_hash($password, PASSWORD_DEFAULT, self::ENCRYPTION_COST);
+            $result = $stmt->exec([
+               ':username' => $username,
+               ':password' => $hash
+            ]);
 
-              $query = 'INSERT INTO `users` (`username`, `password`) VALUES(:username, :password)';
-              $stmt = $this->pdo->prepare($query);
+            if(!$result) {
+              return false;
+            }
 
-              $stmt->execute([
-                  ':username' => $username,
-                  ':password' => $encryptedPass
-              ]);
-
-              return $stmt;
+            return $this->pdo->lastInsertId();
           }
     }

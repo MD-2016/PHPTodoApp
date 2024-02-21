@@ -10,6 +10,9 @@
               $errors = array_filter(['username' => Validate::username($_POST['username'], $required), 
                          'password' => Validate::password($_POST['password'], $required), 
                          'validatepassword' => Validate::valdiatePassword($_POST['validatepassword'], $_POST['password'], $required)]);
+
+             
+                
     }
 
 
