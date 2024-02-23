@@ -21,11 +21,23 @@ use PDOException;
             try {
               $this->pdo = new \PDO("sqlite:" . Config::PATH_TO_SQLITE_FILE);
             } catch(PDOException $e) {
-                echo "Error with loading database: " . $e;
+                echo "Error with loading database: " . $e->getMessage();
             }
+
+            return $this->pdo;
             
          }
 
+         public function connect() {
+            
+         }
+
+         protected static function select($query) {
+            try {
+              
+            }
+         }
+         /*
           public function addUserQuery(string $username, string $password): bool|int {
             static $query = 'INSERT INTO `user` (`username`, `password`) VALUES(:username, :password)';
 
@@ -47,5 +59,5 @@ use PDOException;
             }
 
             return $this->pdo->lastInsertId();
-          }
+          } */
     }
