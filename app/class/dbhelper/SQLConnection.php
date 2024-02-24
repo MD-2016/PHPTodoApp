@@ -1,43 +1,70 @@
 <?php
 
 namespace MD\dbhelper;
+
+use ErrorException;
+use Exception;
 use MD\dbhelper\config;
 use PDOException;
+use ValueError;
 
-    class Database {
-        /**
-         * PDO instance
-         * @var type
-         */
+class Database
+{
+  /**
+   * PDO instance
+   * @var type
+   */
 
-         private \PDO $pdo;
+  private static \PDO $pdo;
 
-         private const HASH_ALGO = PASSWORD_DEFAULT;
+  private const HASH_ALGO = PASSWORD_DEFAULT;
 
-         private const ENCRYPTION_COST = ['cost' => 11];
+  private const ENCRYPTION_COST = ['cost' => 11];
 
-         public function __construct() 
-         {
-            try {
-              $this->pdo = new \PDO("sqlite:" . Config::PATH_TO_SQLITE_FILE);
-            } catch(PDOException $e) {
-                echo "Error with loading database: " . $e->getMessage();
-            }
+  public function __construct()
+  {
 
-            return $this->pdo;
-            
-         }
+    if (empty(self::$pdo)) {
+      try {
+        self::$pdo = new \PDO("sqlite:" . Config::PATH_TO_SQLITE_FILE);
+      } catch (PDOException $e) {
+        echo "Error with loading database: " . $e->getMessage();
+      }
+    }
+  }
 
-         public function connect() {
-            
-         }
+  protected function select(string|array $table)
+  {
+    
+    if (empty($table)) {
+      throw new ValueError("Select statement must not be empty");
+    }
 
-         protected static function select($query) {
-            try {
-              
-            }
-         }
-         /*
+    if(is_string($table)) {
+        $sql = "SELECT * FROM {$table}";
+        $stmt = self::$pdo->prepare($sql);
+        $stmt->execute();
+
+        while($row = $stmt->fetch()) {
+           yield $row;
+        }
+
+    } else {
+      $fixedStatement = implode("`,`", $table);
+      $sql = "SELECT `{$fixedStatement}`";
+      $stmt = self::$pdo->prepare($sql);
+      $stmt->execute();
+
+      while($row = $stmt->fetch()) {
+        yield $row;
+      }
+    }
+  }
+
+
+
+
+  /*
           public function addUserQuery(string $username, string $password): bool|int {
             static $query = 'INSERT INTO `user` (`username`, `password`) VALUES(:username, :password)';
 
@@ -60,4 +87,4 @@ use PDOException;
 
             return $this->pdo->lastInsertId();
           } */
-    }
+}
