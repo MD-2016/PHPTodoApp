@@ -1,3 +1,22 @@
+<?php
+    include "../../vendor/autoload.php";
+    use MD\dbhelper\Database;
+    use MD\helpers\Validate;
+    use MD\models\Model;
+    use MD\models\User;
+
+    public function find_user_by_username($username) {
+        $sql = "SELECT `username`, `password` FROM `users` WHERE `username=:username";
+
+        $stmt = self::  
+    }
+
+    public function is_user_logged_in() {
+        return isset($_SESSION['username']);
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
